@@ -29,5 +29,5 @@ jobs:
       - name: Compile
         run: |
           docker build  -f docker/Dockerfile -t weber:latest .
-          docker tag weber:latest europe-north1-docker.pkg.dev/antiproject/antimon-docker/weber:1
-          docker push europe-north1-docker.pkg.dev/antiproject/antimon-docker/weber:1
+          docker tag weber:latest europe-north1-docker.pkg.dev/data-mind-337520/antimon-docker/weber:1
+          docker push europe-north1-docker.pkg.dev/data-mind-337520/antimon-docker/weber:1
