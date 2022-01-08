@@ -1,0 +1,22 @@
+name: Elixir test project
+
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request_target:
+    branches:
+      - '**'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  login:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to GAR
+        uses: docker/login-action@v1
+        with:
+          registry: europe-north1-docker.pkg.dev
+          username: _json_key_base64
+          password: ${{ secrets.ANTI_GCP }}
