@@ -10,13 +10,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-env:
-  PROJECT_ID: antiproject
-  GKE_CLUSTER: cluster-1    # Add your cluster name here.
-  GKE_ZONE: us-central1-c   # Add your cluster zone here.
-  DEPLOYMENT_NAME: gke-test # Add your deployment name here.
-  IMAGE: static-site
-
 jobs:
   login:
     runs-on: ubuntu-latest
@@ -29,6 +22,7 @@ jobs:
           password: ${{ secrets.ANTI_GCP }}
   compile:
     name: Compile, Package and Upload
+    needs: [ login ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
