@@ -10,6 +10,13 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  PROJECT_ID: antiproject
+  GKE_CLUSTER: cluster-1    # Add your cluster name here.
+  GKE_ZONE: us-central1-c   # Add your cluster zone here.
+  DEPLOYMENT_NAME: gke-test # Add your deployment name here.
+  IMAGE: static-site
+
 jobs:
   login:
     runs-on: ubuntu-latest
@@ -17,6 +24,16 @@ jobs:
       - name: Login to GAR
         uses: docker/login-action@v1
         with:
-          registry: europe-north1-docker.pkg.dev
+          registry: europe-north1-docker.pkg.dev/data-mind-337520/antimon-docker
           username: _json_key_base64
           password: ${{ secrets.ANTI_GCP }}
+  compile:
+    name: Compile, Package and Upload
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Compile
+        run: |
+          docker build  -f docker/Dockerfile -t weber:latest .
+          docker tag weber:latest europe-north1-docker.pkg.dev/antiproject/antimon-docker/weber:1
+          docker push europe-north1-docker.pkg.dev/antiproject/antimon-docker/weber:1
