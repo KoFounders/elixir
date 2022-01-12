@@ -14,13 +14,11 @@ env:
   PROJECT_ID: ${{ secrets.ANTI_GCP_PROJECT_ID }}
 
 jobs:
-  compile:
-    name: Compile, Package and Upload
-    needs: [ login ]
+  login:
+    name: Login to GAR
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v0.4.0'
@@ -28,6 +26,11 @@ jobs:
           workload_identity_provider: 'projects/348769354616/locations/global/workloadIdentityPools/antimon-pool/providers/antimon-provider'
           service_account: 'antimon-service-account@${{ env.PROJECT_ID }}.iam.gserviceaccount.com '
 
+  compile:
+    name: Compile, Package and Upload
+    runs-on: ubuntu-latest
+    needs: [ login ]
+    steps:
       - name: Compile
         run: |
           docker build  -f docker/Dockerfile -t weber:latest .
