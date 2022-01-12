@@ -30,7 +30,7 @@ jobs:
         uses: 'google-github-actions/auth@v0.4.0'
         with:
           token_format: 'access_token'
-          workload_identity_provider: 'projects/348769354616/locations/global/workloadIdentityPools/antimon-pool/providers/antimon-provider'
+          workload_identity_provider: 'projects/348769354616/locations/global/workloadIdentityPools/antimon-pool2/providers/antimon-provider2'
           service_account: 'artifactregistry@elixir-337919.iam.gserviceaccount.com'
 
       - name: 'Docker configuration'
