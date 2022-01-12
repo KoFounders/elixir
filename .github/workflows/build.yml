@@ -18,9 +18,10 @@ permissions:
   id-token: 'write'
 
 jobs:
-  compile:
+  compile-and-push:
     name: Compile, Package and Upload
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
 
