@@ -22,7 +22,6 @@ jobs:
     name: Login to GAR
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v0.4.0'
@@ -35,6 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ login ]
     steps:
+      - uses: actions/checkout@v2
       - name: Compile
         run: |
           docker build  -f docker/Dockerfile -t weber:latest .
