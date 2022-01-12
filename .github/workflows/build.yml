@@ -32,11 +32,11 @@ jobs:
           workload_identity_provider: 'projects/348769354616/locations/global/workloadIdentityPools/antimon-pool/providers/antimon-provider'
           service_account: 'artifactregistry@elixir-337919.iam.gserviceaccount.com'
 
-      - name: Docker configuration
+       - name: Docker configuration
         run: |-
           echo ${{steps.auth.outputs.access_token}} | docker login -u oauth2accesstoken --password-stdin https://europe-north1-docker-docker.pkg.dev
 
-      - name: Compile
+      - name: Build image and Push
         run: |
           docker build  -f docker/Dockerfile -t weber:latest .
           docker tag weber:latest "europe-north1-docker.pkg.dev/elixir-337919/antimon-docker/weber:${GITHUB_SHA}"
