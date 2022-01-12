@@ -18,17 +18,6 @@ permissions:
   id-token: 'write'
 
 jobs:
-  login:
-    name: Login to GAR
-    runs-on: ubuntu-latest
-    steps:
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0.4.0'
-        with:
-          workload_identity_provider: 'projects/348769354616/locations/global/workloadIdentityPools/antimon-pool/providers/antimon-provider'
-          service_account: 'artifactregistry@${{ env.PROJECT_ID }}.iam.gserviceaccount.com'
-
   compile:
     name: Compile, Package and Upload
     runs-on: ubuntu-latest
@@ -41,7 +30,7 @@ jobs:
         uses: 'google-github-actions/auth@v0.4.0'
         with:
           workload_identity_provider: 'projects/348769354616/locations/global/workloadIdentityPools/antimon-pool/providers/antimon-provider'
-          service_account: 'antimon-service-account@${{ env.PROJECT_ID }}.iam.gserviceaccount.com '
+          service_account: 'artifactregistryt@${{ env.PROJECT_ID }}.iam.gserviceaccount.com '
 
       - name: Compile
         run: |
