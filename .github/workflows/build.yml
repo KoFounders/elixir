@@ -38,5 +38,5 @@ jobs:
       - name: Compile
         run: |
           docker build  -f docker/Dockerfile -t weber:latest .
-          docker tag weber:latest europe-north1-docker.pkg.dev/${PROJECT_ID}/antimon-docker/weber:${GITHUB_SHA}
-          docker push europe-north1-docker.pkg.dev/${PROJECT_ID}/antimon-docker/weber:${GITHUB_SHA}
+          docker tag weber:latest europe-north1-docker.pkg.dev/"${PROJECT_ID}"/antimon-docker/weber:"${GITHUB_SHA}"
+          docker push europe-north1-docker.pkg.dev/"${PROJECT_ID}"/antimon-docker/weber:"${GITHUB_SHA}"
