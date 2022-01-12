@@ -10,22 +10,24 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  PROJECT_ID: ${{ secrets.ANTI_GCP_PROJECT_ID }}
+
 jobs:
-  login:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Login to GAR
-        uses: docker/login-action@v1
-        with:
-          registry: europe-north1-docker.pkg.dev
-          username: _json_key
-          password: ${{ secrets.ANTI_GCP }}
   compile:
     name: Compile, Package and Upload
     needs: [ login ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v0.4.0'
+        with:
+          workload_identity_provider: 'projects/348769354616/locations/global/workloadIdentityPools/antimon-pool/providers/antimon-provider'
+          service_account: 'antimon-service-account@${{ env.PROJECT_ID }}.iam.gserviceaccount.com '
+
       - name: Compile
         run: |
           docker build  -f docker/Dockerfile -t weber:latest .
