@@ -29,10 +29,10 @@ jobs:
         uses: 'google-github-actions/auth@v0.4.0'
         with:
           workload_identity_provider: 'projects/348769354616/locations/global/workloadIdentityPools/antimon-pool/providers/antimon-provider'
-          service_account: 'artifactregistryt@${{ env.PROJECT_ID }}.iam.gserviceaccount.com '
+          service_account: 'artifactregistry@elixir-337919.iam.gserviceaccount.com'
 
       - name: Compile
         run: |
           docker build  -f docker/Dockerfile -t weber:latest .
-          docker tag weber:latest "europe-north1-docker.pkg.dev/${PROJECT_ID}/antimon-docker/weber:${GITHUB_SHA}"
-          docker push "europe-north1-docker.pkg.dev/${PROJECT_ID}/antimon-docker/weber:${GITHUB_SHA}"
+          docker tag weber:latest "europe-north1-docker.pkg.dev/elixir-337919/antimon-docker/weber:${GITHUB_SHA}"
+          docker push "europe-north1-docker.pkg.dev/elixir-337919/antimon-docker/weber:${GITHUB_SHA}"
