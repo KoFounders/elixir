@@ -34,7 +34,7 @@ jobs:
 
       - name: 'Docker configuration'
         run: |-
-          echo ${{steps.auth.outputs.access_token}} | docker login -u oauth2accesstoken --password-stdin https://europe-north1-docker-docker.pkg.dev
+          echo ${{steps.auth.outputs.access_token}} | docker login -u oauth2accesstoken --password-stdin https://europe-north1-docker.pkg.dev
 
       - name: 'Build image and Push'
         run: |
