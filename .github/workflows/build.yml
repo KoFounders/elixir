@@ -54,4 +54,4 @@ jobs:
 
       - name: Wait for uptime
         run: |-
-          scripts/wait_deployment.sh elixir 300 default
+          k8/scripts/wait_deployment.sh elixir 300 default
