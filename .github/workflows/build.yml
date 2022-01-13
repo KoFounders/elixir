@@ -12,6 +12,8 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.ANTI_GCP_PROJECT_ID }}
+  GKE_CLUSTER: autopilot-cluster-1
+  GKE_ZONE:  europe-north1
 
 permissions:
   contents: 'read'
@@ -42,3 +44,20 @@ jobs:
           docker build  -f docker/Dockerfile -t weber:latest .
           docker tag weber:latest "europe-north1-docker.pkg.dev/elixir-337919/antimon-docker/weber:${GITHUB_SHA}"
           docker push "europe-north1-docker.pkg.dev/elixir-337919/antimon-docker/weber:${GITHUB_SHA}"
+
+      # Get the GKE credentials so we can deploy to the cluster
+      - name: Set up GKE credentials
+        uses: google-github-actions/get-gke-credentials@v0.4.0
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_ZONE }}
+
+      - name: Deploy
+        run: |-
+          bin/ktmpl k8/deployment.yaml --parameter VERSION ${GITHUB_SHA} | kubectl apply -f -
+          kubectl apply -f k8/service.yaml
+          kubectl apply -f k8/ingress.yaml
+
+      - name: Wait for uptime
+        run: |-
+          scripts/wait_deployment.sh elixir 300 elixir

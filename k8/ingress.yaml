@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: elixir
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    # We rewrite the path /${yourName} to /, so if you go to browser with 34.77.222.146.nip.io/${yourName}/actuator/health,
+    # it will resolve it to /actuator/health in the application (without the yourname in the path)
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+    - host: 35.228.152.61
+      http:
+        paths:
+          - path: /
+            backend:
+              service:
+                name: elixir
+                port:
+                  number: 4000

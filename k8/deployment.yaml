@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elixir
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: elixir
+  template:
+    metadata:
+      labels:
+        app: elixir
+    spec:
+      containers:
+        - image: europe-north1-docker.pkg.dev/elixir-337919/antimon-docker/weber:$(VERSION)
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            # upper limit that container can acquire even if node has plenty of resources
+            limits:
+              cpu: 200m
+              memory: 2560Mi
+          name: elixir
+          ports:
+            - containerPort: 4000
+          # used to check if application is healthy, if it fails the pod gets killed and restarted
+#          livenessProbe:
+#            httpGet:
+#              path: /actuator/health
+#              port: 8080
+#            periodSeconds: 30
+#            timeoutSeconds: 2
+#            failureThreshold: 5
+          # used to check if it is ready (i.e. could route traffic), if it fails, traffic is not routed to this pod
+ #         readinessProbe:
+#            httpGet:
+#              path: /actuator/health
+#              port: 8080
+#            periodSeconds: 15
+#            timeoutSeconds: 2
+#            failureThreshold: 2
+          # used to check if it is up for the very first time. liveness will take over after this succeeds
+#          startupProbe:
+#            httpGet:
+#              path: /actuator/health
+#              port: 8080
+#            periodSeconds: 2
+#            failureThreshold: 60
+parameters:
+  - name: "VERSION"
+    description: "version"
+    value: "1"
