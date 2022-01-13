@@ -4,8 +4,6 @@ defmodule Weber.Entry do
 
   plug(:match)
 
-  plug(:match)
-
   plug(
     Plug.Parsers,
     parsers: [:json],
@@ -16,6 +14,10 @@ defmodule Weber.Entry do
   plug(:dispatch)
 
   forward("/bot", to: Weber.Router)
+
+  get "/ping" do
+    send_resp(conn, 200, "pong")
+  end
 
   match _ do
     send_resp(conn, 404, "Requested page not found!")
