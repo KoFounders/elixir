@@ -39,11 +39,11 @@ jobs:
         run: |-
           echo ${{steps.auth.outputs.access_token}} | docker login -u oauth2accesstoken --password-stdin https://europe-north1-docker.pkg.dev
 
-      - name: 'Build image and Push'
-        run: |
-          docker build  -f docker/Dockerfile -t weber:latest .
-          docker tag weber:latest "europe-north1-docker.pkg.dev/elixir-337919/antimon-docker/weber:${GITHUB_SHA}"
-          docker push "europe-north1-docker.pkg.dev/elixir-337919/antimon-docker/weber:${GITHUB_SHA}"
+#      - name: 'Build image and Push'
+#        run: |
+#          docker build  -f docker/Dockerfile -t weber:latest .
+#          docker tag weber:latest "europe-north1-docker.pkg.dev/elixir-337919/antimon-docker/weber:${GITHUB_SHA}"
+#          docker push "europe-north1-docker.pkg.dev/elixir-337919/antimon-docker/weber:${GITHUB_SHA}"
 
       # Get the GKE credentials so we can deploy to the cluster
       - name: Set up GKE credentials
@@ -54,7 +54,8 @@ jobs:
 
       - name: Deploy
         run: |-
-          k8/bin/ktmpl k8/deployment.yaml --parameter VERSION ${GITHUB_SHA} | kubectl apply -f -
+          k8/bin/ktmpl k8/deployment.yaml --parameter VERSION 1 | kubectl apply -f -
+#          k8/bin/ktmpl k8/deployment.yaml --parameter VERSION ${GITHUB_SHA} | kubectl apply -f -
           kubectl apply -f k8/service.yaml
           kubectl apply -f k8/ingress.yaml
 
