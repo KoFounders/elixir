@@ -12,8 +12,7 @@ defmodule Weber.Router do
 
   defp message do
     %{
-      response_type: "in_channel",
-      text: "Hello from BOT :)"
+      text: "Hello world!",
     }
   end
 

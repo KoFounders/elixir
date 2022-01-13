@@ -13,7 +13,7 @@ defmodule Weber.Entry do
 
   plug(:dispatch)
 
-  forward("/bot", to: Weber.Router)
+  forward("/api", to: Weber.Router)
 
   get "/ping" do
     send_resp(conn, 200, "pong")
