@@ -54,7 +54,7 @@ jobs:
 
       - name: Deploy
         run: |-
-          bin/ktmpl k8/deployment.yaml --parameter VERSION ${GITHUB_SHA} | kubectl apply -f -
+          k8/bin/ktmpl k8/deployment.yaml --parameter VERSION ${GITHUB_SHA} | kubectl apply -f -
           kubectl apply -f k8/service.yaml
           kubectl apply -f k8/ingress.yaml
 
